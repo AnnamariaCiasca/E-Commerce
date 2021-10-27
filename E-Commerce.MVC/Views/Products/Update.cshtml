@@ -1,0 +1,19 @@
+﻿
+@model ProductViewModel
+
+<h1>Product Code @Model.Code</h1>
+
+<div class="row">
+    <div class="col-3"></div>
+    <form class="col-lg-6 col-md-6 col-sm-12" asp-controller="Products" asp-action="Update" method="post">
+
+        <partial name="_Form" model="Model" />
+
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary" />
+            <a class="btn btn-success" asp-controller="Products" asp-action="Index" role="button">Cancel</a>
+        </div>
+    </form>
+
+
+</div>

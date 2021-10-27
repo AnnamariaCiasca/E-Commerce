@@ -1,0 +1,35 @@
+﻿@model ProductViewModel
+
+
+<div class="row">
+    <div class="col-1"></div>
+
+    <div class="col-lg-10 col-md-10 col-sm-12">
+        <h1>Details</h1>
+        <p>Chosen product: @Model.Description</p>
+        <br />
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Supplier Price</th>
+    
+                </tr>
+            </thead>
+            <tbody>
+               
+                    <tr>
+                        <td>@Model.SupplierPrice €</td>
+                    
+
+                    </tr>
+                    <tr>
+                      
+                        <td><a class="btn btn-primary" asp-controller="Products" asp-action="Index" role="button">Cancel</a></td>
+                    </tr>
+            </tbody>
+          
+        </table>
+        <div class="col-3"></div>
+    </div>
+</div>
+
