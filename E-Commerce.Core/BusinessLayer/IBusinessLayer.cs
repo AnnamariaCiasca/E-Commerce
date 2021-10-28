@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_Commerce.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace E_Commerce.Core.BusinessLayer
         bool UpdateProduct(Product product);
         Product GetProductById(int id);
         Product GetProductByCode(string code);
+        public User GetAccount(string username);
     }
 }

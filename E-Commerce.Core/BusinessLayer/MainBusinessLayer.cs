@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Core.Interfaces;
+using E_Commerce.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace E_Commerce.Core.BusinessLayer
     public class MainBusinessLayer : IBusinessLayer
     {
         private readonly IRepositoryProduct prodRepo;
+        private readonly IRepositoryUser usersRepo;
 
-        public MainBusinessLayer(IRepositoryProduct productRepository)
+        public MainBusinessLayer(IRepositoryProduct productRepository, IRepositoryUser userRepository)
         {
             this.prodRepo = productRepository;
+            this.usersRepo = userRepository;
         }
 
         public List<Product> FetchProducts()
@@ -84,6 +87,14 @@ namespace E_Commerce.Core.BusinessLayer
             return prodRepo.GetById(id);
         }
 
-  
+        public User GetAccount(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return null;
+            }
+            return usersRepo.GetByUsername(username);
+        }
+
     }
 }

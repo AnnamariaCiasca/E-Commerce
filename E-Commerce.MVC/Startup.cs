@@ -1,6 +1,8 @@
 using E_Commerce.Core.BusinessLayer;
 using E_Commerce.Core.Interfaces;
 using E_Commerce.EF;
+using E_Commerce.EF.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,12 +31,28 @@ namespace E_Commerce.MVC
         {
             services.AddControllersWithViews();
 
-            services.AddTransient<IBusinessLayer, MainBusinessLayer>();
-            services.AddTransient<IRepositoryProduct, RepositoryProductEF>();
+            services.AddScoped<IBusinessLayer, MainBusinessLayer>();
+            services.AddScoped<IRepositoryProduct, RepositoryProductEF>();
+            services.AddScoped<IRepositoryUser, RepositoryUsersEF>();
 
             services.AddDbContext<AmazonContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AmazonDb")));
-        }
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(option =>
+             {
+                 option.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Users/Login");
+                 option.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Users/Forbidden");
+             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Adm", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("User", policy => policy.RequireRole("User"));
+                options.AddPolicy("User", policy => policy.RequireRole("Supplier"));
+            });
+        
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,6 +72,7 @@ namespace E_Commerce.MVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

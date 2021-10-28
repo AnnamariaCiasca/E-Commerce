@@ -6,49 +6,62 @@
         <div class="col-lg-10 col-md-10 col-sm-12">
             <h1>Products</h1>
             <br />
-            <a class="btn btn-success" asp-controller="Products" asp-action="Create" role="button">New Product</a>
-            <p />
-            <table class="table table-hover table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Type</th>
-                        <th>Details</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
+            @if (User.IsInRole("Administrator"))
+            {
+                <a class="btn btn-success" asp-controller="Products" asp-action="Create" role="button">New Product</a>
+            }
+                <p />
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <td>@product.Code</td>
-                            <td>@product.Description</td>
-                            <td>@product.Price €</td>
-                            <td>@product.Type.ToString()</td>
-                            <td>
-                                <a type="button" value="Details" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"><i class="fa fa-eye"></i>Details</a>
-                            </td>
-                            <td>
-                                <a type="button" value="Update" asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-success"><i class="fa fa-edit"></i>Update</a>
-                            </td>
-                            <td>
-                                <a type="button" value="Delete" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger"><i class="fa fa-edit"></i>Delete</a>
-                            </td>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>SupplierPrice</th>
+                            <th>Update</th>
+                            <th>Delete</th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>@product.Code</td>
+                                <td>@product.Description</td>
+                                <td>@product.Price €</td>
+                                <td>@product.Type.ToString()</td>
+                                <td>
+                                    @if (User.IsInRole("Supplier"))
+                                    {
+                                        <a type="button" value="Details" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"><i class="fa fa-eye"></i>Details</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a type="button" value="Update" asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-success"><i class="fa fa-edit"></i>Update</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a type="button" value="Delete" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger"><i class="fa fa-edit"></i>Delete</a>
+                                    }
+                                </td>
+                                    
+                            </tr>
+                        }
 
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Total</th>
-                        <th> @Model.Count() </th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="col-3"></div>
-        </div>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th> @Model.Count() </th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="col-3"></div>
+            </div>
     </div>

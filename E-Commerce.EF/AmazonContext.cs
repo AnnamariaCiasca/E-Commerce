@@ -1,5 +1,7 @@
 ﻿using E_Commerce.Core;
+using E_Commerce.Core.Models;
 using E_Commerce.EF.Configuration;
+using E_Commerce.EF.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,12 @@ namespace E_Commerce.EF
     public class AmazonContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
 
+        public AmazonContext()
+        {
+
+        }
         public AmazonContext(DbContextOptions<AmazonContext> options) 
             : base(options)
         {
@@ -30,6 +37,7 @@ namespace E_Commerce.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration<Product>(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
         }
     }
 }
